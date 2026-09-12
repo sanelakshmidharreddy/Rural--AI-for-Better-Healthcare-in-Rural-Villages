@@ -37,7 +37,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Nellai HealthGrid API",
+    title="ARC API",
     description="AI-Powered Rural Healthcare Gap Detection and Resource Prioritization for Tirunelveli",
     version="1.0.0",
     lifespan=lifespan
@@ -62,7 +62,7 @@ app.include_router(health_workers.router, prefix="/api/v1", tags=["Health Worker
 async def root():
     """Root endpoint"""
     return {
-        "message": "Nellai HealthGrid Decision Support API",
+        "message": "ARC Access, Risk, Care Decision Support API",
         "version": "1.0.0",
         "status": "operational",
         "district": "Tirunelveli"

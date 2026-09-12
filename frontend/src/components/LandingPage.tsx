@@ -34,10 +34,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <Activity size={16} /> Decision Support for Public Health Administrators
           </div>
           <h1 className="hero-title">
-            Better healthcare decisions for rural Tamil Nadu
+            ARC: Access. Risk. Care.
           </h1>
           <p className="hero-subtitle">
-            Identify underserved areas, understand the causes, and prioritize the right healthcare intervention.
+            Better healthcare decisions for rural Tamil Nadu through transparent gap detection and resource prioritization.
           </p>
 
           <div className="hero-actions">

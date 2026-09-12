@@ -1,8 +1,8 @@
-# Nellai HealthGrid — AI-Powered Rural Healthcare Gap Detection & Resource Prioritization
+# ARC — Access, Risk, Care for Rural Healthcare
 
-> **Decision-Support Platform for Tirunelveli District Health Officers, Public Health Administrators, and Health NGOs.**
+> **Decision-support platform for Tirunelveli District Health Officers, public health administrators, and health NGOs.**
 
-Nellai HealthGrid addresses the critical distinction between **physical healthcare facility availability** and **effective healthcare delivery**. While a Primary Health Center (PHC) may exist physically, effective healthcare may still be unavailable due to workforce shortages, pharmacy stockouts, long referral travel distances, or declining immunization and maternal care utilization.
+ARC addresses the critical distinction between **physical healthcare facility availability** and **effective healthcare delivery**. While a Primary Health Center (PHC) may exist physically, effective healthcare may still be unavailable due to workforce shortages, pharmacy stockouts, long referral travel distances, or declining immunization and maternal care utilization.
 
 ---
 
@@ -91,6 +91,6 @@ The launcher starts both services and stops them together when you press `Ctrl+C
 
 ## 📊 Prototype Data & Governance Disclaimer
 
-Nellai HealthGrid is a decision-support prototype platform designed for public-health administrators and district planners. 
+ARC is a decision-support prototype platform designed for public-health administrators and district planners. 
 
 All village/block catchment metrics are labeled as **Prototype demonstration data**. The platform provides transparent, deterministic score calculations and recommendations to aid human resource allocation decisions; it is **not** an automated clinical diagnosis system.

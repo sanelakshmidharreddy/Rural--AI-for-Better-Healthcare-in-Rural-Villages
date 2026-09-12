@@ -68,7 +68,7 @@ export default function App() {
       setOverview(ovRes.data);
       setZones(zoneRes.data.zones);
     } catch (err: any) {
-      setError(err.message || 'Failed to connect to Nellai HealthGrid API server');
+      setError(err.message || 'Failed to connect to the ARC API server');
     } finally {
       setLoadingOverview(false);
     }
@@ -244,7 +244,7 @@ export default function App() {
           {loadingOverview && (
             <div className="section-card" style={{ textAlign: 'center', padding: '3rem' }}>
               <RefreshCw size={32} color="#0d9488" className="animate-spin" style={{ margin: '0 auto 1rem' }} />
-              <h3 style={{ fontSize: '1.1rem', color: '#0f172a' }}>Loading Tirunelveli HealthGrid Analytics...</h3>
+              <h3 style={{ fontSize: '1.1rem', color: '#0f172a' }}>Loading Tirunelveli ARC analytics...</h3>
               <p style={{ fontSize: '0.85rem', color: '#64748b' }}>Evaluating facility infrastructure, workforce gaps, and service utilization.</p>
             </div>
           )}
@@ -307,7 +307,7 @@ export default function App() {
       <footer className="app-footer">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', maxWidth: '1400px', margin: '0 auto' }}>
           <div>
-            <strong>Nellai HealthGrid</strong> — AI-Powered Rural Healthcare Gap Detection & Resource Prioritization Platform.
+            <strong>ARC</strong> — Access, Risk, and Care for rural healthcare gap detection and resource prioritization.
             <div style={{ color: '#64748b', marginTop: '0.2rem', fontSize: '0.75rem' }}>
               Tirunelveli District Public Health Administration Pilot | Prototype Demonstration Data | Data Period: Prototype scenario period (Calibrated 2024-2025 RHS/HMIS Benchmarks)
             </div>

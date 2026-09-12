@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { 
-  Activity, ShieldCheck, Database, Info, AlertTriangle, 
+  ShieldCheck, Database, Info, AlertTriangle, 
   HelpCircle, ChevronRight, Home, MapPin, BookOpen, RotateCcw
 } from 'lucide-react';
 
@@ -50,7 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
             style={{ cursor: onNavigateHome ? 'pointer' : 'default' }}
             title="Return to Home"
           >
-            <Activity size={24} />
+            <img src="/arc-logo.svg" alt="ARC logo" />
           </div>
           <div>
             <div 
@@ -58,10 +58,10 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={onNavigateHome}
               style={{ cursor: onNavigateHome ? 'pointer' : 'default' }}
             >
-              Nellai HealthGrid
+              ARC
             </div>
             <div className="brand-subtitle">
-              Decision Support for Rural Healthcare Gap Detection & Resource Prioritization — {selectedDistrict} District
+              Access. Risk. Care. — Rural healthcare gap detection and resource prioritization for {selectedDistrict} District
             </div>
           </div>
         </div>

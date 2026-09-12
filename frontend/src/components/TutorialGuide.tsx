@@ -179,7 +179,7 @@ export const TutorialGuide: React.FC<TutorialGuideProps> = ({
             <Compass size={22} color="#0d9488" />
             <div>
               <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#0f172a' }}>
-                Nellai HealthGrid Guided Tutorial
+                ARC Guided Tutorial
               </div>
               <div style={{ fontSize: '0.75rem', color: '#64748b' }}>
                 Step {currentStepIndex + 1} of {TUTORIAL_STEPS.length}

@@ -304,7 +304,7 @@ def run_tests():
     try:
         r = httpx.get(FRONTEND_URL)
         assert r.status_code == 200
-        assert "Nellai HealthGrid" in r.text
+        assert "ARC Access, Risk, Care" in r.text
         r_proxy = httpx.get(f"{FRONTEND_URL}/api/overview")
         assert r_proxy.status_code == 200
         print("[PASS] 16. Frontend Dev Server (http://localhost:3000) — HTML 200 OK & /api proxy operational")

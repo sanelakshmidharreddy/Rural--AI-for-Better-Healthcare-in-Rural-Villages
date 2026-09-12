@@ -1,5 +1,5 @@
 /**
- * API Client for Nellai HealthGrid Backend
+ * API client for the ARC backend
  */
 
 export interface SummaryMetrics {

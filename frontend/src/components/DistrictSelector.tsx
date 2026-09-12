@@ -57,7 +57,7 @@ export const DistrictSelector: React.FC<DistrictSelectorProps> = ({
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
             <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a' }}>
-              Tamil Nadu District HealthGrid Directory
+              Tamil Nadu ARC District Directory
             </h2>
             <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '0.25rem' }}>
               Select a district to view healthcare infrastructure, workforce capacity, and catchment gap analytics.

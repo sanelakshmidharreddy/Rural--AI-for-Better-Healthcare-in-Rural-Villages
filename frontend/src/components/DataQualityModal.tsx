@@ -129,7 +129,7 @@ export const DataQualityModal: React.FC<DataQualityModalProps> = ({ isOpen, onCl
             </div>
 
             <div style={{ background: '#fffbeb', border: '1px solid #fef3c7', padding: '1rem', borderRadius: '8px', fontSize: '0.825rem', color: '#92400e' }}>
-              <strong>Public Health Governance Disclaimer:</strong> Nellai HealthGrid is a decision support prototype designed for district administrative resource allocation. It does not replace official government health census records or provide clinical medical diagnoses.
+              <strong>Public Health Governance Disclaimer:</strong> ARC is a decision support prototype designed for district administrative resource allocation. It does not replace official government health census records or provide clinical medical diagnoses.
             </div>
           </div>
         )}
