@@ -1,0 +1,57 @@
+{
+  "project": "ARC — Access, Risk, Care",
+  "version": "1.0.0",
+  "dataClassification": "Prototype demonstration data",
+  "dataPeriod": "Prototype scenario period (Calibrated 2024-2025 RHS/HMIS Benchmarks)",
+  "geographicScope": {
+    "state": "Tamil Nadu",
+    "district": "Tirunelveli",
+    "districtCensusCode": "628",
+    "blocksAnalysed": 10,
+    "pilotStatus": "Active Pilot Available"
+  },
+  "benchmarkSources": [
+    {
+      "name": "Health Dynamics of India (Infrastructure and Human Resources) 2022-23",
+      "publisher": "Ministry of Health and Family Welfare (MoHFW), Government of India",
+      "sourceUrl": "https://main.mohfw.gov.in/",
+      "retrievalDate": "2024-09-01",
+      "status": "Official Published Statistics"
+    },
+    {
+      "name": "Health Management Information System (HMIS)",
+      "publisher": "National Health Mission (NHM), MoHFW",
+      "sourceUrl": "https://hmis.mohfw.gov.in/",
+      "retrievalDate": "2024-09-01",
+      "status": "Official Administrative Reporting"
+    },
+    {
+      "name": "National Family Health Survey (NFHS-5) Tirunelveli District Factsheet",
+      "publisher": "International Institute for Population Sciences (IIPS)",
+      "sourceUrl": "http://rchiips.org/nfhs/districtfactsheet_NFHS-5.shtml",
+      "retrievalDate": "2024-09-01",
+      "status": "Official National Survey"
+    },
+    {
+      "name": "Poshan Tracker & ICDS Monitoring",
+      "publisher": "Ministry of Women and Child Development (MoWCD)",
+      "sourceUrl": "https://poshantracker.in/",
+      "retrievalDate": "2024-09-01",
+      "status": "Official Mission Tracker"
+    },
+    {
+      "name": "Tamil Nadu Medical Services Corporation (TNMSC) Essential Drug Checklist",
+      "publisher": "Government of Tamil Nadu",
+      "sourceUrl": "https://tnmsc.tn.gov.in/",
+      "retrievalDate": "2024-09-01",
+      "status": "Official State Public Health Logistics"
+    }
+  ],
+  "dataQualityAudit": {
+    "overallDistrictCompleteness": "93.3%",
+    "dataGranularity": "Block & Rural PHC Catchment Level",
+    "dataMode": "Prototype Demonstration Mode",
+    "isRealTimeFeed": false,
+    "disclaimer": "This platform supports public-health planning and resource prioritization. It does not diagnose patients, replace healthcare professionals, or automatically make final healthcare decisions. Intervention requests require review and authorization by responsible officials."
+  }
+}
