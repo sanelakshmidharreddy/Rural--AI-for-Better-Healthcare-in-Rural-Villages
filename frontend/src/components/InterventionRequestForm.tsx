@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { api, InterventionRequestCreateInput, ZoneSummary } from '../services/api';
+import { api } from '../services/api';
+import type { InterventionRequestCreateInput, ZoneSummary } from '../services/api';
 import { Send, AlertCircle, CheckCircle2, ShieldAlert } from 'lucide-react';
 
 interface InterventionRequestFormProps {

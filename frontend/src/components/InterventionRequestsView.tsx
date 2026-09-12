@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { api, InterventionRequestItem } from '../services/api';
+import { api } from '../services/api';
+import type { InterventionRequestItem } from '../services/api';
 import { FileText, Plus, RefreshCw, Filter, CheckCircle2, Clock, XCircle, AlertCircle } from 'lucide-react';
 
 interface InterventionRequestsViewProps {
