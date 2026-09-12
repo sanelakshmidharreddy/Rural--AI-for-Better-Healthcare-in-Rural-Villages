@@ -47,25 +47,17 @@ All sub-indicators are normalized to a 0–100 scale (100 = maximum gap/risk):
 - Python 3.9+ (Python 3.14 supported)
 - Node.js v18+ & NPM
 
-### Step 1: Run Backend Server
-```bash
-# Activate Virtual Environment (Windows)
-.\venv\Scripts\activate
+### Start Both Services
 
-# Start FastAPI Uvicorn Server
-uvicorn backend.main:app --host 127.0.0.1 --port 8000
+From the repository root, activate the backend and frontend together with one command:
+
+```bash
+.\start.ps1
 ```
+
+The launcher starts both services and stops them together when you press `Ctrl+C`.
 - API Base URL: `http://127.0.0.1:8000`
 - Swagger UI API Docs: `http://127.0.0.1:8000/docs`
-
-### Step 2: Run Frontend Web Dashboard
-```bash
-# Navigate to frontend folder
-cd frontend
-
-# Start Vite Development Server
-npm run dev
-```
 - Web Dashboard URL: `http://localhost:3000`
 
 ---
