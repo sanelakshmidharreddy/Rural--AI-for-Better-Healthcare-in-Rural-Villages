@@ -174,7 +174,7 @@ export interface ApiResponse<T> {
   error: { code: string; message: string } | null;
 }
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL ?? '/api';
 
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
   const res = await fetch(url, options);
