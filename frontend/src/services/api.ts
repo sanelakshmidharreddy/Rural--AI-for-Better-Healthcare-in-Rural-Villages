@@ -161,6 +161,53 @@ export interface PrioritizationResult {
   }>;
 }
 
+export interface DistrictItem {
+  id: string;
+  name: string;
+  region: string;
+  hasPilot: boolean;
+  status: string;
+}
+
+export interface InterventionRequestItem {
+  id: string;
+  zoneId: string;
+  zoneName: string;
+  block: string;
+  interventionType: string;
+  resourceType: string;
+  quantity: number;
+  requestedDate: string;
+  priority: string;
+  justification: string;
+  notes?: string;
+  requestingOrg: string;
+  contactPerson: string;
+  contactPhone: string;
+  contactEmail: string;
+  status: string; // Draft, Submitted, Under review, Approved, Scheduled, Completed, Rejected
+  createdAt?: string;
+  updatedAt?: string;
+  disclaimer: string;
+}
+
+export interface InterventionRequestCreateInput {
+  zoneId: string;
+  zoneName: string;
+  block: string;
+  interventionType: string;
+  resourceType: string;
+  quantity: number;
+  requestedDate: string;
+  priority: string;
+  justification: string;
+  notes?: string;
+  requestingOrg: string;
+  contactPerson: string;
+  contactPhone: string;
+  contactEmail: string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
@@ -179,7 +226,8 @@ const API_BASE = '/api';
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
   const res = await fetch(url, options);
   if (!res.ok) {
-    throw new Error(`API error: ${res.status} ${res.statusText}`);
+    const errorData = await res.json().catch(() => ({ detail: 'Network request error' }));
+    throw new Error(errorData.detail || errorData.error?.message || `API error: ${res.status} ${res.statusText}`);
   }
   return res.json();
 }
@@ -228,5 +276,35 @@ export const api = {
 
   async getDataQuality(): Promise<ApiResponse<any>> {
     return fetchJson<any>(`${API_BASE}/data-quality`);
+  },
+
+  async getDistricts(): Promise<ApiResponse<{ state: string; totalDistricts: number; activePilotDistrict: string; districts: DistrictItem[] }>> {
+    return fetchJson<{ state: string; totalDistricts: number; activePilotDistrict: string; districts: DistrictItem[] }>(`${API_BASE}/districts`);
+  },
+
+  async getDistrictDetail(districtId: string): Promise<ApiResponse<DistrictItem>> {
+    return fetchJson<DistrictItem>(`${API_BASE}/districts/${districtId}`);
+  },
+
+  async createInterventionRequest(payload: InterventionRequestCreateInput): Promise<ApiResponse<InterventionRequestItem>> {
+    return fetchJson<InterventionRequestItem>(`${API_BASE}/intervention-requests`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async getInterventionRequests(statusFilter?: string): Promise<ApiResponse<{ total: number; requests: InterventionRequestItem[] }>> {
+    const url = statusFilter ? `${API_BASE}/intervention-requests?status=${encodeURIComponent(statusFilter)}` : `${API_BASE}/intervention-requests`;
+    return fetchJson<{ total: number; requests: InterventionRequestItem[] }>(url);
+  },
+
+  async updateInterventionRequestStatus(id: string, status: string): Promise<ApiResponse<InterventionRequestItem>> {
+    return fetchJson<InterventionRequestItem>(`${API_BASE}/intervention-requests/${id}/status`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    });
   }
 };
+

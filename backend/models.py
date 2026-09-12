@@ -107,3 +107,31 @@ class RuralHealthZone(Base):
     def __repr__(self):
         return f"<RuralHealthZone(id='{self.id}', name='{self.name}', block='{self.block}')>"
 
+
+class InterventionRequest(Base):
+    """Intervention Request Submission Model"""
+    __tablename__ = "intervention_requests"
+
+    id = Column(String(50), primary_key=True, index=True) # e.g. NHG-2026-0001
+    zone_id = Column(String(50), nullable=False)
+    zone_name = Column(String(255), nullable=False)
+    block = Column(String(100), nullable=False)
+    intervention_type = Column(String(255), nullable=False)
+    resource_type = Column(String(255), nullable=False)
+    quantity = Column(Integer, nullable=False)
+    requested_date = Column(String(50), nullable=False)
+    priority = Column(String(50), default="High Priority")
+    justification = Column(Text, nullable=False)
+    notes = Column(Text, nullable=True)
+    requesting_org = Column(String(255), nullable=False)
+    contact_person = Column(String(255), nullable=False)
+    contact_phone = Column(String(50), nullable=False)
+    contact_email = Column(String(255), nullable=False)
+    status = Column(String(50), default="Submitted") # Draft, Submitted, Under review, Approved, Scheduled, Completed, Rejected
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self):
+        return f"<InterventionRequest(id='{self.id}', zone='{self.zone_name}', status='{self.status}')>"
+
+

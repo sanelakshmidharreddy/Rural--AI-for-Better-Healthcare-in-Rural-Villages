@@ -9,10 +9,11 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 
 from backend.database import get_db
-from backend.models import RuralHealthZone
+from backend.models import RuralHealthZone, InterventionRequest
 from backend.services.scoring import calculate_gap_score
 from backend.services.recommendations import get_zone_recommendation
 from backend.services.prioritization import prioritize_resources
+
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -338,3 +339,204 @@ async def get_data_quality(db: Session = Depends(get_db)):
         "lastUpdated": "Q3 2026",
         "zoneDataQualityList": zone_quality
     })
+
+
+# --- TAMIL NADU DISTRICTS ---
+
+TAMIL_NADU_DISTRICTS = [
+    {"id": "ariyalur", "name": "Ariyalur", "region": "Central Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "chengalpattu", "name": "Chengalpattu", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "chennai", "name": "Chennai", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "coimbatore", "name": "Coimbatore", "region": "Western Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "cuddalore", "name": "Cuddalore", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "dharmapuri", "name": "Dharmapuri", "region": "Western Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "dindigul", "name": "Dindigul", "region": "Southern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "erode", "name": "Erode", "region": "Western Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "kallakurichi", "name": "Kallakurichi", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "kanchipuram", "name": "Kanchipuram", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "kanyakumari", "name": "Kanyakumari", "region": "Southern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "karur", "name": "Karur", "region": "Central Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "krishnagiri", "name": "Krishnagiri", "region": "Western Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "madurai", "name": "Madurai", "region": "Southern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "mayiladuthurai", "name": "Mayiladuthurai", "region": "Central Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "nagapattinam", "name": "Nagapattinam", "region": "Central Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "namakkal", "name": "Namakkal", "region": "Western Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "nilgiris", "name": "Nilgiris", "region": "Western Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "perambalur", "name": "Perambalur", "region": "Central Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "pudukkottai", "name": "Pudukkottai", "region": "Central Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "ramanathapuram", "name": "Ramanathapuram", "region": "Southern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "ranipet", "name": "Ranipet", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "salem", "name": "Salem", "region": "Western Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "sivaganga", "name": "Sivaganga", "region": "Southern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "tenkasi", "name": "Tenkasi", "region": "Southern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "thanjavur", "name": "Thanjavur", "region": "Central Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "theni", "name": "Theni", "region": "Southern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "thoothukudi", "name": "Thoothukudi", "region": "Southern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "tiruchirappalli", "name": "Tiruchirappalli", "region": "Central Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "tirunelveli", "name": "Tirunelveli", "region": "Southern Tamil Nadu", "hasPilot": True, "status": "Rural healthcare pilot available"},
+    {"id": "tirupathur", "name": "Tirupathur", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "tiruppur", "name": "Tiruppur", "region": "Western Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "tiruvallur", "name": "Tiruvallur", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "tiruvannamalai", "name": "Tiruvannamalai", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "tiruvarur", "name": "Tiruvarur", "region": "Central Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "vellore", "name": "Vellore", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "viluppuram", "name": "Viluppuram", "region": "Northern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"},
+    {"id": "virudhunagar", "name": "Virudhunagar", "region": "Southern Tamil Nadu", "hasPilot": False, "status": "Data integration planned"}
+]
+
+
+@router.get("/districts")
+async def get_districts():
+    """GET /api/districts - List all 38 Tamil Nadu districts with pilot availability status"""
+    return make_response({
+        "state": "Tamil Nadu",
+        "totalDistricts": len(TAMIL_NADU_DISTRICTS),
+        "activePilotDistrict": "Tirunelveli",
+        "districts": TAMIL_NADU_DISTRICTS
+    })
+
+
+@router.get("/districts/{district_id}")
+async def get_district_detail(district_id: str):
+    """GET /api/districts/:id - Get specific Tamil Nadu district pilot status"""
+    d = next((item for item in TAMIL_NADU_DISTRICTS if item["id"].lower() == district_id.lower()), None)
+    if not d:
+        raise HTTPException(status_code=404, detail=f"District '{district_id}' not found in Tamil Nadu registry")
+    return make_response(d)
+
+
+# --- INTERVENTION REQUEST WORKFLOW ---
+
+class InterventionRequestCreate(BaseModel):
+    zoneId: str = Field(..., min_length=1)
+    zoneName: str = Field(..., min_length=1)
+    block: str = Field(..., min_length=1)
+    interventionType: str = Field(..., min_length=1)
+    resourceType: str = Field(..., min_length=1)
+    quantity: int = Field(..., gt=0, description="Quantity must be greater than zero")
+    requestedDate: str = Field(..., min_length=1)
+    priority: str = Field(default="High Priority")
+    justification: str = Field(..., min_length=5, description="Administrative justification is required")
+    notes: Optional[str] = None
+    requestingOrg: str = Field(..., min_length=2)
+    contactPerson: str = Field(..., min_length=2)
+    contactPhone: str = Field(..., min_length=5)
+    contactEmail: str = Field(..., min_length=5)
+
+
+class StatusUpdateReq(BaseModel):
+    status: str = Field(..., min_length=2) # Draft, Submitted, Under review, Approved, Scheduled, Completed, Rejected
+
+
+def request_to_dict(req: InterventionRequest) -> Dict[str, Any]:
+    return {
+        "id": req.id,
+        "zoneId": req.zone_id,
+        "zoneName": req.zone_name,
+        "block": req.block,
+        "interventionType": req.intervention_type,
+        "resourceType": req.resource_type,
+        "quantity": req.quantity,
+        "requestedDate": req.requested_date,
+        "priority": req.priority,
+        "justification": req.justification,
+        "notes": req.notes,
+        "requestingOrg": req.requesting_org,
+        "contactPerson": req.contact_person,
+        "contactPhone": req.contact_phone,
+        "contactEmail": req.contact_email,
+        "status": req.status,
+        "createdAt": req.created_at.isoformat() if req.created_at else None,
+        "updatedAt": req.updated_at.isoformat() if req.updated_at else None,
+        "disclaimer": "This prototype records an intervention request for authorized review. It does not automatically dispatch real-world government resources."
+    }
+
+
+@router.post("/intervention-requests")
+async def create_intervention_request(
+    payload: InterventionRequestCreate,
+    db: Session = Depends(get_db)
+):
+    """POST /api/intervention-requests - Save an authorized intervention request record"""
+    # Verify target zone exists
+    zone = db.query(RuralHealthZone).filter(RuralHealthZone.id == payload.zoneId).first()
+    if not zone:
+        raise HTTPException(status_code=404, detail=f"Target health zone '{payload.zoneId}' not found")
+
+    count = db.query(InterventionRequest).count() + 1
+    req_id = f"NHG-2026-{count:04d}"
+
+    db_req = InterventionRequest(
+        id=req_id,
+        zone_id=payload.zoneId,
+        zone_name=payload.zoneName,
+        block=payload.block,
+        intervention_type=payload.interventionType,
+        resource_type=payload.resourceType,
+        quantity=payload.quantity,
+        requested_date=payload.requestedDate,
+        priority=payload.priority,
+        justification=payload.justification,
+        notes=payload.notes,
+        requesting_org=payload.requestingOrg,
+        contact_person=payload.contactPerson,
+        contact_phone=payload.contactPhone,
+        contact_email=payload.contactEmail,
+        status="Submitted"
+    )
+
+    db.add(db_req)
+    db.commit()
+    db.refresh(db_req)
+
+    logger.info(f"Created intervention request: {db_req.id} for zone {db_req.zone_name}")
+    return make_response(request_to_dict(db_req))
+
+
+@router.get("/intervention-requests")
+async def list_intervention_requests(
+    status_filter: Optional[str] = Query(None, alias="status"),
+    db: Session = Depends(get_db)
+):
+    """GET /api/intervention-requests - List all submitted intervention requests"""
+    query = db.query(InterventionRequest)
+    if status_filter:
+        query = query.filter(InterventionRequest.status.ilike(status_filter))
+    
+    requests = query.order_by(InterventionRequest.created_at.desc()).all()
+    results = [request_to_dict(r) for r in requests]
+    return make_response({"total": len(results), "requests": results})
+
+
+@router.get("/intervention-requests/{request_id}")
+async def get_intervention_request(
+    request_id: str,
+    db: Session = Depends(get_db)
+):
+    """GET /api/intervention-requests/:id - Get specific intervention request record"""
+    req = db.query(InterventionRequest).filter(InterventionRequest.id == request_id).first()
+    if not req:
+        raise HTTPException(status_code=404, detail=f"Intervention request '{request_id}' not found")
+    return make_response(request_to_dict(req))
+
+
+@router.patch("/intervention-requests/{request_id}/status")
+async def update_intervention_request_status(
+    request_id: str,
+    payload: StatusUpdateReq,
+    db: Session = Depends(get_db)
+):
+    """PATCH /api/intervention-requests/:id/status - Update intervention request status"""
+    req = db.query(InterventionRequest).filter(InterventionRequest.id == request_id).first()
+    if not req:
+        raise HTTPException(status_code=404, detail=f"Intervention request '{request_id}' not found")
+    
+    allowed_statuses = ["Draft", "Submitted", "Under review", "Approved", "Scheduled", "Completed", "Rejected"]
+    if payload.status not in allowed_statuses:
+        raise HTTPException(status_code=400, detail=f"Invalid status '{payload.status}'. Allowed: {allowed_statuses}")
+
+    req.status = payload.status
+    db.commit()
+    db.refresh(req)
+    return make_response(request_to_dict(req))
+

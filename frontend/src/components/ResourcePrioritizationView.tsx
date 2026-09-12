@@ -46,11 +46,17 @@ export const ResourcePrioritizationView: React.FC = () => {
           <Truck size={22} color="#0d9488" />
           Interactive Resource Allocation & "What-If" Scenario Simulator
         </h3>
-        <p style={{ fontSize: '0.875rem', color: '#475569' }}>
+        <p style={{ fontSize: '0.875rem', color: '#475569', marginBottom: '0.85rem' }}>
           Select available district healthcare resource packages. The optimization engine ranks Tirunelveli health zones 
           based on Healthcare Gap Score, population pressure, and resource-gap compatibility, projecting post-allocation risk reduction.
         </p>
+
+        <div style={{ backgroundColor: '#fffbeb', border: '1px solid #fef3c7', padding: '0.75rem 1rem', borderRadius: '8px', fontSize: '0.825rem', color: '#92400e', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <ShieldCheck size={18} />
+          <strong>Simulation Disclaimer:</strong> Simulation only — not an actual deployment decision. Estimated improvements model potential impact and require official review before real-world execution.
+        </div>
       </div>
+
 
       <div className="section-card" style={{ background: '#f8fafc', border: '1px solid #cbd5e1' }}>
         <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem' }}>
